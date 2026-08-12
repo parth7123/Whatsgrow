@@ -1,195 +1,177 @@
-<p align="center">
-  <img src="logos/WG_SVG_light.svg" alt="WhatsGrow Logo" width="320"/>
-</p>
+<div align="center">
 
-<h1 align="center">WhatsGrow</h1>
-<p align="center">
-  <strong>WhatsApp Automation & Marketing API Gateway</strong>
-</p>
+  <!-- White High-Contrast Logo for GitHub -->
+  <img src="logos/logo-white.svg" alt="WhatsGrow Logo" width="380" />
 
-<p align="center">
-  <a href="#-features">Features</a> •
-  <a href="#-quick-start">Quick Start</a> •
-  <a href="#-documentation">Docs</a> •
-  <a href="#-api-examples">API</a> •
-  <a href="#-contributing">Contributing</a>
-</p>
+  <br />
+  <br />
 
-<p align="center">
-  <img src="https://img.shields.io/badge/version-v0.17.0-blue" alt="Version"/>
-  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"/>
-  <img src="https://img.shields.io/badge/node-22_LTS-brightgreen.svg" alt="Node"/>
-  <img src="https://img.shields.io/badge/NestJS-11.x-red.svg" alt="NestJS"/>
-  <img src="https://img.shields.io/badge/docker-ready-blue.svg" alt="Docker"/>
-  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6.svg" alt="TypeScript"/>
-</p>
+  <!-- Animated Typing SVG Subtitle -->
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1200&color=3B82F6&center=true&vCenter=true&width=600&lines=WhatsApp+Automation+%26+Marketing+API;Multi-Session+Messaging+Gateway;Self-Hosted+%26+100%25+Control;Docker+Native+%2B+REST+%2B+Webhooks" alt="Typing Banner" />
+  </a>
 
----
+  <br />
+  <br />
 
-## ✨ Why WhatsGrow?
+  <!-- Badges -->
+  <p align="center">
+    <a href="https://github.com/parth7123/Whatsgrow"><img src="https://img.shields.io/badge/version-v0.7.6-3B82F6?style=for-the-badge&logo=github" alt="Version"/></a>
+    <img src="https://img.shields.io/badge/node-22_LTS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js"/>
+    <img src="https://img.shields.io/badge/NestJS-11.x-E0234E?style=for-the-badge&logo=nestjs&logoColor=white" alt="NestJS"/>
+    <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+    <img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"/>
+    <img src="https://img.shields.io/badge/License-MIT-00C853?style=for-the-badge" alt="License"/>
+  </p>
 
-**WhatsGrow** is a powerful WhatsApp Automation & Marketing API Gateway designed for businesses and developers who need full control over their messaging infrastructure—without vendor lock-in or hidden paywalls.
+  <p align="center">
+    <a href="#-quick-start"><b>Quick Start</b></a> •
+    <a href="#-key-features"><b>Key Features</b></a> •
+    <a href="#-architecture--tech-stack"><b>Tech Stack</b></a> •
+    <a href="#-api-examples"><b>API Reference</b></a> •
+    <a href="#-security"><b>Security</b></a>
+  </p>
 
-Built on a **pluggable architecture**, WhatsGrow lets you swap database engines (SQLite/PostgreSQL), storage backends (Local/S3), and cache layers (Memory/Redis) without changing application code.
-
-|                               |                                                              |
-| ----------------------------- | ------------------------------------------------------------ |
-| 🔓 **100% Self-Hosted**       | No licensing fees, no feature locks, full source code access |
-| 🏗️ **Pluggable Architecture** | Swap adapters for database, storage, and cache via config    |
-| 🖥️ **Full Dashboard**         | Modern React UI for session, webhook, and API key management |
-| 🔹 **Multi-Session Ready**    | Run multiple WhatsApp sessions concurrently on one instance  |
-| 🐳 **Docker Native**          | Production-ready with zero configuration                     |
-| 🔗 **n8n Integration**        | Community nodes for workflow automation                      |
-| 🧩 **Community Adapters**     | Third-party integrations — see [docs](./docs/23-community-integrations.md) |
+</div>
 
 ---
 
-## 🎯 Features
+## ⚡ Overview
 
-### Core Features
+**WhatsGrow** is a production-ready **WhatsApp Automation & Marketing API Gateway**. It empowers developers, startups, and enterprises to send, receive, and automate WhatsApp communications at scale without vendor lock-in or recurring per-message fees.
 
-| Feature       | Status | Description                          |
-| ------------- | ------ | ------------------------------------ |
-| REST API      | ✅     | Full WhatsApp API via HTTP endpoints |
-| Multi-Session | ✅     | Manage multiple WhatsApp accounts    |
-| Webhooks      | ✅     | Real-time events with HMAC signature and optional smart pre-dispatch filters |
-| Web Dashboard | ✅     | Visual management interface          |
-| API Key Auth  | ✅     | Secure API authentication            |
-| Swagger Docs  | ✅     | Interactive API documentation        |
+### 🌟 Why Choose WhatsGrow?
 
-### Messaging
+```
+ ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
+ │   REST API      │ ───►  │   WhatsGrow     │ ───►  │  WhatsApp Web / │
+ │   & Dashboard   │       │   Core Engine   │       │     Baileys     │
+ └─────────────────┘       └─────────────────┘       └─────────────────┘
+                                    │
+                       ┌────────────┴────────────┐
+                       ▼                         ▼
+            ┌─────────────────────┐   ┌─────────────────────┐
+            │ SQLite / Postgres   │   │ Local / S3 Media    │
+            └─────────────────────┘   └─────────────────────┘
+```
 
-| Feature           | Status | Description                      |
-| ----------------- | ------ | -------------------------------- |
-| Text Messages     | ✅     | Send/receive text messages       |
-| Media Messages    | ✅     | Images, videos, documents, audio |
-| Message Reactions | ✅     | React to messages with emoji     |
-| Bulk Messaging    | ✅     | Send to multiple recipients      |
-| Message Status    | ✅     | Track delivery and read receipts |
+- 🚀 **100% Self-Hosted**: Complete ownership of your data, session storage, and media.
+- 📱 **Multi-Session Management**: Run dozens of active WhatsApp sessions concurrently on a single server.
+- ⚡ **Pluggable Architecture**: Seamlessly switch databases (SQLite/PostgreSQL), storage (Local/S3/MinIO), and caching (Memory/Redis) via configuration.
+- 📊 **Built-in React Dashboard**: Included web interface for real-time chat monitoring, session QR pairing, webhook logs, and key management.
+- 🤖 **AI & Webhook Friendly**: Real-time event streaming with HMAC signature verification, pre-dispatch filters, and Model Context Protocol (MCP) support for AI agents.
 
-### Advanced
+---
 
-| Feature             | Status | Description                        |
-| ------------------- | ------ | ---------------------------------- |
-| Groups API          | ✅     | Create, manage, and message groups |
-| Channels/Newsletter | ✅     | WhatsApp Channels support          |
-| Labels Management   | ✅     | Organize chats with labels         |
-| Proxy Support       | ✅     | Per-session proxy configuration    |
-| Rate Limiting       | ✅     | Configurable request limits        |
-| CIDR Whitelisting   | ✅     | IP-based access control            |
-| Audit Logging       | ✅     | Track all API operations           |
+## 🛠 Tech Stack
 
-### Infrastructure
+<div align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=nodejs,nestjs,ts,docker,postgres,sqlite,redis,react,vite,express" alt="Tech Stack Icons" />
+  </a>
+</div>
 
-| Feature          | Status | Description                    |
-| ---------------- | ------ | ------------------------------ |
-| SQLite           | ✅     | Zero-config embedded database  |
-| PostgreSQL       | ✅     | Production-grade database      |
-| Redis Cache      | ✅     | Optional performance caching   |
-| S3/MinIO Storage | ✅     | Scalable media storage         |
-| Docker           | ✅     | One-command deployment         |
-| Health Checks    | ✅     | Kubernetes-ready probes        |
-| Data Migration   | ✅     | Export/import between backends |
+<br />
+
+| Layer | Technology |
+| :--- | :--- |
+| **Runtime & Backend** | Node.js 22 LTS, NestJS 11.x, TypeScript 5.x |
+| **WhatsApp Engines** | `whatsapp-web.js` (default) & `Baileys` |
+| **Frontend Dashboard** | React 18, Vite, Tailwind/CSS, Lucide Icons |
+| **Databases** | SQLite (zero-config) & PostgreSQL |
+| **Storage & Cache** | Local filesystem, AWS S3 / MinIO, Redis |
+| **Containerization** | Docker, Docker Compose |
+
+---
+
+## 🎯 Key Features
+
+| Feature | Description | Status |
+| :--- | :--- | :---: |
+| 📩 **REST Messaging API** | Send text, images, videos, audio, documents, stickers, and reactions | ✅ |
+| 👥 **Multi-Session Engine** | Connect multiple numbers via QR code scan or Pairing Code | ✅ |
+| 🪝 **Smart Webhooks** | Real-time events with HMAC signatures & field filtering | ✅ |
+| 📊 **Admin Dashboard** | Interactive UI served right alongside the API | ✅ |
+| 🔑 **API Key & User Roles** | Role-based authorization (Admin, Operator, Viewer) | ✅ |
+| 📑 **Interactive Swagger** | Built-in Swagger UI documentation (`/api/docs`) | ✅ |
+| 💬 **Groups & Channels** | Create/manage groups, fetch metadata, post to Channels | ✅ |
+| 🏷️ **Labels & Contacts** | WhatsApp Business labels management & contact syncing | ✅ |
+| 🤖 **MCP Server Support** | Built-in Model Context Protocol for Claude / Cursor AI | ✅ |
 
 ---
 
 ## 🚀 Quick Start
 
-### Option A: Docker (Recommended)
+### Option 1: Docker Compose (Recommended)
+
+Get up and running in under 60 seconds with Docker:
 
 ```bash
-# Clone and start
+# 1. Clone the repository
 git clone https://github.com/parth7123/Whatsgrow.git
 cd Whatsgrow
-docker compose -f docker-compose.dev.yml up -d
 
-# Access (the dashboard is bundled into the API image and served on the same port)
-# Dashboard: http://localhost:2785
-# API: http://localhost:2785/api
-# Swagger: http://localhost:2785/api/docs
+# 2. Launch with Docker Compose
+docker compose -f docker-compose.dev.yml up -d
 ```
 
-### Option B: Local Development
+Access the interfaces once started:
+- 📊 **Dashboard UI**: [http://localhost:2785](http://localhost:2785)
+- 📚 **Swagger Docs**: [http://localhost:2785/api/docs](http://localhost:2785/api/docs)
+- 🔌 **API Base**: `http://localhost:2785/api`
+
+---
+
+### Option 2: Local Node.js Development
 
 ```bash
-# Clone repository
+# 1. Clone the repository
 git clone https://github.com/parth7123/Whatsgrow.git
 cd Whatsgrow
 
-# Install dependencies (includes dashboard)
+# 2. Install dependencies
 npm install
 
-# Start API + Dashboard
+# 3. Start development server (API + Dashboard concurrently)
 npm run dev
-
-# Access
-# Dashboard: http://localhost:2886
-# API: http://localhost:2785/api
-# Swagger: http://localhost:2785/api/docs
 ```
+
+Dev Server URLs:
+- 📊 **Dashboard (Vite Hot-Reload)**: [http://localhost:2886](http://localhost:2886)
+- ⚡ **API Server**: [http://localhost:2785](http://localhost:2785)
 
 ---
 
-## 🔒 Security Architecture
+## 📡 API Reference & Code Examples
 
-### Non-root Container Execution
-
-The production image never runs the Node.js process as root. On startup, the container follows this chain:
-
-```
-dumb-init (PID 1)
-  └─ docker-entrypoint.sh (root — fixes named-volume ownership via chown)
-       └─ gosu whatsgrow node dist/main
-```
-
----
-
-## 🏭 Production Deployment
-
-For production, use the main `docker-compose.yml` with optional services:
-
-```bash
-# Basic production (SQLite, local storage)
-docker compose up -d
-
-# With PostgreSQL database
-docker compose --profile postgres up -d
-
-# Full stack (PostgreSQL, Redis, MinIO)
-docker compose --profile full up -d
-```
-
-| Profile    | Services              |
-| ---------- | --------------------- |
-| `postgres` | PostgreSQL database   |
-| `redis`    | Redis cache           |
-| `minio`    | S3-compatible storage |
-| `full`     | All services above    |
-
----
-
-## 🔌 Ports
-
-| Service         | Port            | Description                                   |
-| --------------- | --------------- | --------------------------------------------- |
-| API & Dashboard | `2785`          | REST API + bundled web dashboard (same port)  |
-| Swagger         | `2785/api/docs` | Interactive API docs                          |
-| Dashboard (dev) | `2886`          | Vite dev server with hot reload (`npm run dev`) |
-
----
-
-## 📡 API Examples
-
-### Create a Session
+<details>
+<summary><b>1. Create a WhatsApp Session</b></summary>
 
 ```bash
 curl -X POST http://localhost:2785/api/sessions \
   -H "Content-Type: application/json" \
   -H "X-API-Key: YOUR_API_KEY" \
-  -d '{"name": "my-bot"}'
+  -d '{
+    "name": "sales-bot"
+  }'
 ```
+</details>
 
-### Send a Message
+<details>
+<summary><b>2. Get QR Code for Pairing</b></summary>
+
+```bash
+curl -X POST http://localhost:2785/api/sessions/{sessionId}/start \
+  -H "X-API-Key: YOUR_API_KEY"
+
+# Fetch QR Code SVG/Image
+curl http://localhost:2785/api/sessions/{sessionId}/qr \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+</details>
+
+<details>
+<summary><b>3. Send Text & Media Message</b></summary>
 
 ```bash
 curl -X POST http://localhost:2785/api/sessions/{sessionId}/messages/send-text \
@@ -197,55 +179,43 @@ curl -X POST http://localhost:2785/api/sessions/{sessionId}/messages/send-text \
   -H "X-API-Key: YOUR_API_KEY" \
   -d '{
     "chatId": "1234567890@c.us",
-    "text": "Hello from WhatsGrow!"
+    "text": "Hello from WhatsGrow API! 🚀"
   }'
 ```
+</details>
+
+<details>
+<summary><b>4. Configure Webhooks</b></summary>
+
+```bash
+curl -X POST http://localhost:2785/api/sessions/{sessionId}/webhooks \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -d '{
+    "url": "https://your-domain.com/api/webhook",
+    "events": ["message.received", "session.status"],
+    "secret": "your-hmac-secret-key"
+  }'
+```
+</details>
 
 ---
 
-## 🛠 Tech Stack
+## 🔒 Security & Best Practices
 
-| Layer         | Technology              |
-| ------------- | ----------------------- |
-| **Runtime**   | Node.js 22 LTS          |
-| **Framework** | NestJS 11.x             |
-| **Language**  | TypeScript 5.x          |
-| **WA Engine** | whatsapp-web.js (default) / baileys — set `ENGINE_TYPE` |
-| **Database**  | SQLite / PostgreSQL     |
-| **Cache**     | Redis (optional)        |
-| **Storage**   | Local / S3 / MinIO      |
-| **ORM**       | TypeORM                 |
-| **Container** | Docker + Docker Compose |
-
----
-
-## 📁 Project Structure
-
-```
-whatsgrow/
-├── src/                        # NestJS API Backend
-├── dashboard/                  # React Web Dashboard
-├── docs/                      # Comprehensive Documentation
-├── logos/                      # SVG Brand Assets
-├── docker-compose.yml
-├── Dockerfile
-└── package.json
-```
+- **Non-Root Execution**: Docker containers run as unprivileged `whatsgrow` user.
+- **Docker Socket Proxy**: Protects host daemon via container proxy sidecar.
+- **API Key Hashing**: Key secrets are stored using secure salted hashes (`bcrypt`).
+- **IP & CIDR Whitelisting**: Restrict API keys to specific trusted server IP addresses.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
+Distributed under the **MIT License**. Free for personal, commercial, and enterprise usage.
 
-See [LICENSE](./LICENSE) for details.
-
----
+<br />
 
 <div align="center">
-
-**WhatsGrow** – WhatsApp Automation & Marketing API Gateway
-
-[📖 Documentation](./docs/README.md) · [🔌 API Docs](http://localhost:2785/api/docs)
-
+  <sub>Built with ❤️ for the global WhatsApp developer community.</sub>
 </div>
