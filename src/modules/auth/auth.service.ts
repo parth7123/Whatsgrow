@@ -59,7 +59,7 @@ export class AuthService implements OnModuleInit {
     @InjectRepository(ApiKey, 'main')
     private readonly apiKeyRepository: Repository<ApiKey>,
     private readonly usersService: UsersService,
-  ) {}
+  ) { }
 
   async onModuleInit(): Promise<void> {
     // Ensure default admin user exists and password hash matches
@@ -128,7 +128,7 @@ export class AuthService implements OnModuleInit {
     this.logger.log('');
     this.logger.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     this.logger.log('');
-    this.logger.log('  🟢 Welcome to OpenWA - WhatsApp API Gateway');
+    this.logger.log('  🟢 Welcome to WhatsGrow - WhatsApp API Gateway');
     this.logger.log('');
     this.logger.log(`  📊 Dashboard: ${dashboardUrl}`);
     this.logger.log(`  📚 API Docs:  ${apiBaseUrl}/api/docs`);
@@ -204,7 +204,7 @@ export class AuthService implements OnModuleInit {
         if (apiKey.name === 'Default Admin Key' && existsSync(API_KEY_FILE)) {
           try {
             fullKey = readFileSync(API_KEY_FILE, 'utf-8').trim();
-          } catch {}
+          } catch { }
         }
         if (!fullKey) {
           fullKey = `${apiKey.keyPrefix || 'owa_k1_'}${randomBytes(24).toString('hex')}`;

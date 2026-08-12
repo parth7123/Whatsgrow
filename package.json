@@ -1,7 +1,7 @@
 {
-  "name": "openwa",
+  "name": "whatsgrow",
   "version": "0.7.6",
-  "description": "Open Source WhatsApp API Gateway - Free, Self-Hosted HTTP API for WhatsApp",
+  "description": "WhatsGrow WhatsApp API Gateway - Self-Hosted HTTP API for WhatsApp",
   "author": "Yudhi Armyndharis & OpenWA Contributors",
   "private": true,
   "license": "MIT",

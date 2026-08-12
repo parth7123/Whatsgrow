@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="docs/logo/openwa_logo.webp" alt="OpenWA Logo" width="200"/>
+  <img src="logos/WG_SVG_light.svg" alt="WhatsGrow Logo" width="320"/>
 </p>
 
-<h1 align="center">OpenWA</h1>
+<h1 align="center">WhatsGrow</h1>
 <p align="center">
-  <strong>Open Source WhatsApp API Gateway</strong>
+  <strong>WhatsApp Automation & Marketing API Gateway</strong>
 </p>
 
 <p align="center">
@@ -16,8 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/rmyndharis/OpenWA/actions/workflows/ci.yml"><img src="https://github.com/rmyndharis/OpenWA/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"/></a>
-  <img src="https://img.shields.io/github/package-json/v/rmyndharis/OpenWA?label=version&color=blue" alt="Version"/>
+  <img src="https://img.shields.io/badge/version-v0.17.0-blue" alt="Version"/>
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"/>
   <img src="https://img.shields.io/badge/node-22_LTS-brightgreen.svg" alt="Node"/>
   <img src="https://img.shields.io/badge/NestJS-11.x-red.svg" alt="NestJS"/>
@@ -27,21 +26,21 @@
 
 ---
 
-## ✨ Why OpenWA?
+## ✨ Why WhatsGrow?
 
-**OpenWA** is a free, open-source WhatsApp API Gateway designed for developers who need full control over their messaging infrastructure—without vendor lock-in or hidden paywalls.
+**WhatsGrow** is a powerful WhatsApp Automation & Marketing API Gateway designed for businesses and developers who need full control over their messaging infrastructure—without vendor lock-in or hidden paywalls.
 
-Built on a **pluggable architecture**, OpenWA lets you swap database engines (SQLite/PostgreSQL), storage backends (Local/S3), and cache layers (Memory/Redis) without changing a single line of application code.
+Built on a **pluggable architecture**, WhatsGrow lets you swap database engines (SQLite/PostgreSQL), storage backends (Local/S3), and cache layers (Memory/Redis) without changing application code.
 
 |                               |                                                              |
 | ----------------------------- | ------------------------------------------------------------ |
-| 🔓 **100% Open Source**       | No licensing fees, no feature locks, full source code access |
+| 🔓 **100% Self-Hosted**       | No licensing fees, no feature locks, full source code access |
 | 🏗️ **Pluggable Architecture** | Swap adapters for database, storage, and cache via config    |
 | 🖥️ **Full Dashboard**         | Modern React UI for session, webhook, and API key management |
 | 🔹 **Multi-Session Ready**    | Run multiple WhatsApp sessions concurrently on one instance  |
 | 🐳 **Docker Native**          | Production-ready with zero configuration                     |
 | 🔗 **n8n Integration**        | Community nodes for workflow automation                      |
-| 🧩 **Community Adapters**     | Third-party integrations (e.g. ioBroker) — see [docs](./docs/23-community-integrations.md) |
+| 🧩 **Community Adapters**     | Third-party integrations — see [docs](./docs/23-community-integrations.md) |
 
 ---
 
@@ -100,8 +99,8 @@ Built on a **pluggable architecture**, OpenWA lets you swap database engines (SQ
 
 ```bash
 # Clone and start
-git clone https://github.com/rmyndharis/OpenWA.git
-cd OpenWA
+git clone https://github.com/parth7123/Whatsgrow.git
+cd Whatsgrow
 docker compose -f docker-compose.dev.yml up -d
 
 # Access (the dashboard is bundled into the API image and served on the same port)
@@ -110,49 +109,24 @@ docker compose -f docker-compose.dev.yml up -d
 # Swagger: http://localhost:2785/api/docs
 ```
 
-> **Using Podman instead of Docker?**
-> Podman rootless mode requires the socket to be running and `DOCKER_HOST` to be set:
->
-> ```bash
-> systemctl --user start podman.socket
-> systemctl --user enable podman.socket
-> export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
-> ```
->
-> Add the `export` line to your `~/.bashrc` to make it permanent.
-
 ### Option B: Local Development
 
 ```bash
 # Clone repository
-git clone https://github.com/rmyndharis/OpenWA.git
-cd OpenWA
+git clone https://github.com/parth7123/Whatsgrow.git
+cd Whatsgrow
 
 # Install dependencies (includes dashboard)
 npm install
 
-# Start API + Dashboard (config is auto-generated on first run)
+# Start API + Dashboard
 npm run dev
 
-# Access (in dev the dashboard runs on the Vite server with hot reload)
+# Access
 # Dashboard: http://localhost:2886
 # API: http://localhost:2785/api
 # Swagger: http://localhost:2785/api/docs
 ```
-
----
-
-## 🔒 Security Architecture
-
-### Docker Socket Proxy
-
-The production stack never exposes `/var/run/docker.sock` directly to the application container. Instead, a dedicated `docker-proxy` sidecar (based on [`tecnativa/docker-socket-proxy`](https://github.com/Tecnativa/docker-socket-proxy)) acts as the sole gateway to the Docker daemon:
-
-```
-openwa-api  ──TCP 2375──▶  docker-proxy  ──unix──▶  /var/run/docker.sock
-```
-
-Only the operations needed for container orchestration are enabled (`CONTAINERS`, `IMAGES`, `VOLUMES`, `INFO`, `PING`, `POST`, `DELETE`). The application connects via the `DOCKER_HOST=tcp://docker-proxy:2375` environment variable, which `DockerService` detects automatically.
 
 ---
 
@@ -165,14 +139,8 @@ The production image never runs the Node.js process as root. On startup, the con
 ```
 dumb-init (PID 1)
   └─ docker-entrypoint.sh (root — fixes named-volume ownership via chown)
-       └─ gosu openwa node dist/main  (drops to the openwa user)
+       └─ gosu whatsgrow node dist/main
 ```
-
-- **dumb-init** is PID 1 and forwards signals (SIGTERM, etc.) for graceful shutdown.
-- **docker-entrypoint.sh** runs as root only long enough to `chown` the named-volume mount points so the `openwa` user can write to them.
-- **gosu** performs a clean `exec`-based privilege drop — no `su` or `sudo` wrappers, so the node process is the direct child of dumb-init.
-
-Named volumes (e.g. `openwa-data`) get their ownership corrected automatically on every start, so no manual `chown` step is needed after volume creation.
 
 ---
 
@@ -198,19 +166,7 @@ docker compose --profile full up -d
 | `minio`    | S3-compatible storage |
 | `full`     | All services above    |
 
-> The dashboard is bundled into the API image and served by NestJS on the API port, so it
-> needs no profile — it is always available wherever `openwa-api` runs. For TLS/public exposure,
-> put your own reverse proxy (nginx, Caddy, a cloud load balancer, or a k8s Ingress) in front;
-> see the nginx example in `docs/12-troubleshooting-faq.md`.
-
-> **Development vs Production**
->
-> - Development (`docker-compose.dev.yml`): SQLite, local storage, API serves the bundled dashboard
-> - Production (`docker-compose.yml`): Configurable database, profiles for optional services
->
-> Official GHCR images are published as multi-arch manifests for:
-> - `linux/amd64`
-> - `linux/arm64`
+---
 
 ## 🔌 Ports
 
@@ -233,18 +189,6 @@ curl -X POST http://localhost:2785/api/sessions \
   -d '{"name": "my-bot"}'
 ```
 
-### Start Session & Get QR Code
-
-```bash
-# Start the session
-curl -X POST http://localhost:2785/api/sessions/{sessionId}/start \
-  -H "X-API-Key: YOUR_API_KEY"
-
-# Get QR code (scan with WhatsApp)
-curl http://localhost:2785/api/sessions/{sessionId}/qr \
-  -H "X-API-Key: YOUR_API_KEY"
-```
-
 ### Send a Message
 
 ```bash
@@ -252,63 +196,10 @@ curl -X POST http://localhost:2785/api/sessions/{sessionId}/messages/send-text \
   -H "Content-Type: application/json" \
   -H "X-API-Key: YOUR_API_KEY" \
   -d '{
-    "chatId": "628123456789@c.us",
-    "text": "Hello from OpenWA!"
+    "chatId": "1234567890@c.us",
+    "text": "Hello from WhatsGrow!"
   }'
 ```
-
-### Setup Webhook
-
-```bash
-curl -X POST http://localhost:2785/api/sessions/{sessionId}/webhooks \
-  -H "Content-Type: application/json" \
-  -H "X-API-Key: YOUR_API_KEY" \
-  -d '{
-    "url": "https://your-server.com/webhook",
-    "events": ["message.received", "session.status"],
-    "secret": "your-hmac-secret"
-  }'
-```
-
-> **Smart filters (optional):** add a `filters` object to fire the webhook only when conditions match
-> (AND), e.g. `{ "conditions": [{ "field": "sender", "operator": "is", "value": ["1234567890@c.us"] }] }`.
-> Fields: `sender` / `recipient` / `body` / `type` / `mentions` / `fromMe` / `hasMedia` / `isGroup`. A
-> webhook with no filters behaves exactly as before. See the API specification for the full schema.
-
-## 🤖 MCP Server (AI Agents)
-
-OpenWA can expose a **curated set of tools over the [Model Context Protocol](https://modelcontextprotocol.io)** so AI agents (Claude, Cursor, …) can drive WhatsApp. It is **off by default** and **additive** — every REST route keeps working unchanged.
-
-Set `MCP_ENABLED=true` to mount a stateless Streamable-HTTP transport at **`POST /mcp`** on the existing server (same port, no extra process). It exposes ~39 curated tools (sessions, messaging, contacts, basic group ops, webhook reads) — a focused surface rather than the full API, so agents aren't overwhelmed and destructive operations stay off the agent path.
-
-```bash
-MCP_ENABLED=true npm run start:prod   # or set MCP_ENABLED in your .env / compose
-```
-
-Point an MCP client at it (e.g. for Claude Code, a `.mcp.json` at your project root):
-
-```json
-{
-  "mcpServers": {
-    "openwa": {
-      "type": "http",
-      "url": "http://localhost:2785/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
-    }
-  }
-}
-```
-
-The key can be passed as `Authorization: Bearer …` or `X-API-Key: …`. Every tool call goes through the **same API-key auth, role, and per-session scoping** as REST.
-
-**Security guidance:**
-
-- **Mint a dedicated, least-privilege key** for the agent — a non-admin, **session-scoped** key (`OPERATOR` role at most). The plaintext key is shown only once on creation; to rotate, create a new key and delete the old one.
-- The key **must not** carry an IP allow-list (`allowedIps`) — there is no genuine client IP over MCP, so such a key is rejected.
-- Set **`MCP_READONLY=true`** to mount only the read tools (no sends/writes).
-- Set **`MCP_RATE_LIMIT_MAX`** (default `60`) to limit tool calls per API key per window.
-- Set **`MCP_RATE_LIMIT_WINDOW_MS`** (default `60000`) to control the sliding window size in milliseconds.
-- **Do not expose `/mcp` to the public internet** without a fronting auth proxy. For a self-hosted, locally-reached deployment the static API key is appropriate; public exposure should use OAuth 2.1 (not yet built).
 
 ---
 
@@ -331,29 +222,11 @@ The key can be passed as `Authorization: Bearer …` or `X-API-Key: …`. Every 
 ## 📁 Project Structure
 
 ```
-openwa/
-├── src/
-│   ├── main.ts                 # Application entry point
-│   ├── app.module.ts           # Root module
-│   ├── config/                 # Configuration
-│   ├── common/                 # Shared utilities
-│   │   ├── cache/              # Redis caching
-│   │   └── storage/            # File storage (Local/S3)
-│   ├── core/                   # Core systems
-│   │   ├── hooks/              # Plugin hooks
-│   │   └── plugins/            # Plugin system
-│   ├── engine/                 # WhatsApp engine abstraction
-│   └── modules/
-│       ├── session/            # Session management
-│       ├── message/            # Message handling
-│       ├── webhook/            # Webhook management
-│       ├── group/              # Groups API
-│       ├── contact/            # Contacts API
-│       ├── auth/               # API key authentication
-│       ├── infra/              # Infrastructure management
-│       └── health/             # Health checks
-├── dashboard/                  # React web dashboard
-├── docs/                      # Documentation
+whatsgrow/
+├── src/                        # NestJS API Backend
+├── dashboard/                  # React Web Dashboard
+├── docs/                      # Comprehensive Documentation
+├── logos/                      # SVG Brand Assets
 ├── docker-compose.yml
 ├── Dockerfile
 └── package.json
@@ -361,40 +234,9 @@ openwa/
 
 ---
 
-## 📚 Documentation
-
-Comprehensive documentation is available in the `docs/` folder:
-
-| Document                                                | Description                  |
-| ------------------------------------------------------- | ---------------------------- |
-| [Project Overview](./docs/01-project-overview.md)       | Introduction and goals       |
-| [Requirements](./docs/02-requirements-specification.md) | Feature specifications       |
-| [Architecture](./docs/03-system-architecture.md)        | System design                |
-| [Security](./docs/04-security-design.md)                | Security implementation      |
-| [Database](./docs/05-database-design.md)                | Data models and migrations   |
-| [API Spec](./docs/06-api-specification.md)              | Complete API reference       |
-| [Development](./docs/08-development-guidelines.md)      | Coding standards             |
-| [Migration Guide](./docs/14-migration-guide.md)         | Database & storage migration |
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how to get started:
-
-1. **Fork** the repository
-2. **Create** your feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-Please read our [Development Guidelines](./docs/08-development-guidelines.md) for coding standards and best practices.
-
----
-
 ## 📄 License
 
-This project is licensed under the **MIT License** – free for personal and commercial use.
+This project is licensed under the **MIT License**.
 
 See [LICENSE](./LICENSE) for details.
 
@@ -402,17 +244,8 @@ See [LICENSE](./LICENSE) for details.
 
 <div align="center">
 
-**OpenWA** – Free, Open Source WhatsApp API Gateway
+**WhatsGrow** – WhatsApp Automation & Marketing API Gateway
 
-[📖 Documentation](./docs/README.md) · [🔌 API Docs](http://localhost:2785/api/docs) · [🐛 Report Bug](https://github.com/rmyndharis/OpenWA/issues) · [💡 Request Feature](https://github.com/rmyndharis/OpenWA/issues)
-
-<br/>
-
-<sub>Made with ❤️ by <a href="https://github.com/rmyndharis">Yudhi Armyndharis</a> and the OpenWA Community</sub>
+[📖 Documentation](./docs/README.md) · [🔌 API Docs](http://localhost:2785/api/docs)
 
 </div>
-# Whatsgrow
-# Whatsgrow
-# Whatsgrow
-# Whatsgrow
-# Whatsgrow
